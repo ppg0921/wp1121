@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>My Diary</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="index.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"
+      integrity="sha512-aoTNnqZcT8B4AmeCFmiSnDlc4Nj/KPaZyB5G7JnOnUEkdNpCZs1LCankiYi01sLTyWy+m2P+W4XM+BuQ3Q4/Dg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  
+  <body>
+    <h1>My Diary</h1>
+    <div id="home-page">
+      <div id="todo-input-container">
+        <!-- <input type="text" id="todo-input" placeholder="new todo" tabindex="1" /> -->
+        <button id="todo-add" tabindex="3">add diary</button>
+        <select id="filter-mood">
+          <option value="no-filter" selected > -- mood filter -- </option>
+          <option value="happy">Happy</option>
+          <option value="angry">Angry</option>
+          <option value="upset">Upset</option>
+        </select>
+        <select id="filter-tag">
+          <option value="no-filter" selected > -- tag filter -- </option>
+          <option value="work">Work</option>
+          <option value="relationship">Relationship</option>
+          <option value="club">Club</option>
+        </select>
+      </div>
+      <!-- <textarea
+        id="todo-description-input"
+        placeholder="description"
+        tabindex="2"
+      ></textarea> -->
+      <section id="todos"></section>
+    </div>
+  </body>
+  <template id="todo-item-template" >
+    <div id="" class="todo-item" data-id="">
+      <div>
+        <div>
+          <div class="todo-date">date</div>
+          <div class="todo-tag">tag</div>
+          <div class="todo-mood">mood</div>
+        </div>
+        <button data-id="" class="delete-todo">delete</button>
+      </div>
+      <p class="todo-content">diary content</p>
+    </div>
+  </template>
+  <div id="edit-todo-page" data-status="" data-id="">
+    <button data-id="" class="edit-todo">edit</button>
+    
+    <div id="edit-todo-inputs">
+        <div>
+            <input type="text" id="todo-date-input" placeholder="new diary date" tabindex="1" />
+            <p id="todo-date-show" data-initailValue=""></p>
+            <!-- <input type="text" id="todo-mood-input" placeholder="new diary mood" tabindex="1" /> -->
+            <!-- <input type="text" id="todo-tag-input" placeholder="new diary tag" tabindex="1" /> -->
+            <select id="todo-mood-input" data-initailValue="">
+              <option disabled selected value> -- select mood -- </option>
+              <option value="happy">Happy</option>
+              <option value="angry">Angry</option>
+              <option value="upset">Upset</option>
+            </select>
+            <select id="todo-tag-input" data-initailValue="">
+              <option disabled selected value> -- select tag -- </option>
+              <option value="work">work</option>
+              <option value="relationship">Relationship</option>
+              <option value="club">Club</option>
+            </select>
+        </div>
+        <input type="text" id="todo-content-input" placeholder="new diary content" tabindex="1"/>
+    </div>
+    <button data-id="" class="cancel-todo">cancel</button>
+    <button data-id="" class="save-todo">save</button>
+    <button class="back-to-home-page">back to home page</button>
+  </div>
+</html>
