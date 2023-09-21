@@ -1,12 +1,10 @@
 // const { DomainVerificationOutlined } = require("@mui/icons-material");
 
-
 /* global axios */
 const itemTemplate = document.querySelector("#todo-item-template");
 const todoList = document.querySelector("#todos");
 const homePage = document.querySelector("#home-page");
 const detailPage = document.querySelector("#edit-todo-page");
-
 
 const addTodoButton = document.querySelector("#todo-add");
 const saveTodoButton = document.querySelector("button.save-todo");
@@ -27,7 +25,7 @@ const instance = axios.create({
 });
 
 async function main() {
-  getNowDate();;
+  getNowDate();
   detailPage.style.display = "none";
   setupEventListeners();
   try {
@@ -62,7 +60,6 @@ function inputsInitialization() {
 }
 
 function setupEventListeners() {
-
   addTodoButton.addEventListener("click", () => {
     console.log("addTodoButton clicked");
     detailPage.dataset.status = "add-new";
@@ -72,37 +69,39 @@ function setupEventListeners() {
     todoDateInput.disabled = true;
     inputsInitialization();
     inputsEnabled();
-
+    todoDateShow.innerHTML = getNowDate();
+    todoDateShow.dataset.initialValue = getNowDate();
+    todoDateInput.style.display="none";
+    
     detailPage.style.display = "initial"; // ="block"?
     homePage.style.display = "none";
-  })
+  });
   saveTodoButton.addEventListener("click", async () => {
-    let date = todoDateInput.value;
-    
+    let date = (detailPage.dataset.status === "editing")?todoDateInput.value:getNowDate() ;
+
     let content = todoDescriptionInput.value;
     let tag = todoTagInput.value;
     let mood = todoMoodInput.value;
     if (detailPage.dataset.status !== "view") {
-      if (!date) {
-        if (detailPage.dataset.status === "editing") {
-          date = todoDateInput.placeholder;
-        }
-        else {
-          date = getNowDate();
+      if(detailPage.dataset.status!=="add-new"){
+        if (!date) {
+          if (detailPage.dataset.status === "editing") {
+            date = todoDateInput.placeholder;
+          } else {
+            date = getNowDate();
+          }
+        } else {
+          if (dateChecker(date) === "false") {
+            return;
+          }
+          date = dateChecker(date);
         }
       }
-      else{
-        if (dateChecker(date) === false){
-          
-          return;
-        }
-            
-      }
+      
       if (!content) {
         if (detailPage.dataset.status === "editing") {
           content = todoDescriptionInput.placeholder;
-        }
-        else {
+        } else {
           alert("Please enter diary content!");
           return;
         }
@@ -121,9 +120,13 @@ function setupEventListeners() {
         if (detailPage.dataset.status === "add-new") {
           const todo = await createTodo({ date, content, tag, mood });
           renderTodo(todo);
-        }
-        else if (detailPage.dataset.status === "editing") {
-          const updatedTodo = await updateTodoStatus(detailPage.dataset.id, { date, content, tag, mood });
+        } else if (detailPage.dataset.status === "editing") {
+          const updatedTodo = await updateTodoStatus(detailPage.dataset.id, {
+            date,
+            content,
+            tag,
+            mood,
+          });
           console.log(updatedTodo);
           const originalTodo = document.getElementById(detailPage.dataset.id);
           console.log("originalTodo: ", originalTodo);
@@ -145,11 +148,11 @@ function setupEventListeners() {
     detailPage.dataset.status = "view";
     todoDateShow.innerHTML = date;
     backToHomeButton.style.display = "initial";
-    saveTodoButton.style.display="none";
-    cancelTodoButton.style.display="none";
+    saveTodoButton.style.display = "none";
+    cancelTodoButton.style.display = "none";
     inputsDisabled();
     todoDateInput.style.display = "none";
-    
+
     // detailPage.style.display = "none";
     // homePage.style.display = "initial";
     console.log("after display changed");
@@ -162,11 +165,10 @@ function setupEventListeners() {
       todoMoodInput.value = todoMoodInput.dataset.initialValue;
       todoTagInput.value = todoTagInput.dataset.initialValue;
       detailPage.dataset.status = "view";
-    }
-    else if (detailPage.dataset.status === "add-new") {
+    } else if (detailPage.dataset.status === "add-new") {
       detailPage.dataset.status = "";
 
-      inputsInitialization()
+      inputsInitialization();
       todoDateInput.placeholder = "";
       todoDateShow.innerHTML = "";
       detailPage.style.display = "none";
@@ -181,7 +183,7 @@ function setupEventListeners() {
     saveTodoButton.style.display = "none";
     // detailPage.style.display = "none";
     // homePage.style.display = "initial";
-  })
+  });
   editTodoButton.addEventListener("click", () => {
     detailPage.dataset.status = "editing";
     backToHomeButton.style.display = "none";
@@ -189,8 +191,8 @@ function setupEventListeners() {
     saveTodoButton.style.display = "initial";
     inputsEnabled();
     todoDateInput.style.display = "initial";
-    todoDateInput.disabled=false;
-  })
+    todoDateInput.disabled = false;
+  });
   backToHomeButton.addEventListener("click", () => {
     // todoDateInput.placeholder = "";
     // todoDescriptionInput.placeholder = "";
@@ -198,7 +200,7 @@ function setupEventListeners() {
     // todoDateShow.innerHTML = "";
     detailPage.style.display = "none";
     homePage.style.display = "initial";
-  })
+  });
   moodFilter.addEventListener("change", filtered);
   tagFilter.addEventListener("change", filtered);
 }
@@ -223,13 +225,13 @@ function createTodoElement(todo) {
   const item = itemTemplate.content.cloneNode(true);
   const container = item.querySelector(".todo-item");
   container.id = todo.id;
-  console.log(todo)
+  console.log(todo);
   //   const checkbox = item.querySelector(`input[type="checkbox"]`);
   //   checkbox.checked = todo.completed;
   //   checkbox.dataset.id = todo.id;
   const date = item.querySelector("div.todo-date");
   console.log(date);
-  date.innerText = todo.date
+  date.innerText = todo.date;
   const content = item.querySelector("p.todo-content");
   content.innerText = todo.content;
   const tag = item.querySelector("div.todo-tag");
@@ -301,11 +303,10 @@ async function TodoClicked(todoId) {
     inputsDisabled();
     todoDateInput.style.display = "none";
 
-    editTodoButton.style.display="initial";
+    editTodoButton.style.display = "initial";
 
     homePage.style.display = "none";
     detailPage.style.display = "initial";
-
   } catch (error) {
     console.log(error);
     alert("Failed to load todos!");
@@ -313,7 +314,6 @@ async function TodoClicked(todoId) {
 }
 
 function updateTodoInHomePage(oldTodo, newTodo) {
-
   oldTodo.querySelector("div.todo-date").innerText = newTodo.date;
   oldTodo.querySelector("p.todo-content").innerText = newTodo.content;
   oldTodo.querySelector("div.todo-tag").innerText = newTodo.tag;
@@ -322,7 +322,6 @@ function updateTodoInHomePage(oldTodo, newTodo) {
 }
 
 function filtered() {
-
   const tagInput = tagFilter.value;
   const moodInput = moodFilter.value;
   const todos = homePage.querySelectorAll("div.todo-item");
@@ -337,49 +336,52 @@ function filtered() {
       Array.from(todos).map((todo) => {
         if (todo.querySelector(".todo-mood").innerText !== moodInput) {
           todo.style.display = "none";
-        }
-        else {
+        } else {
           todo.style.display = "initial";
         }
-      })
+      });
     }
-  }
-  else {
+  } else {
     if (moodInput === "no-filter") {
       Array.from(todos).map((todo) => {
         if (todo.querySelector(".todo-tag").innerText !== tagInput) {
           todo.style.display = "none";
-        }
-        else {
+        } else {
           todo.style.display = "initial";
         }
-      })
-    }
-    else {
+      });
+    } else {
       Array.from(todos).map((todo) => {
-        if (todo.querySelector(".todo-mood").innerText !== moodInput || todo.querySelector(".todo-tag").innerText !== tagInput) {
+        if (
+          todo.querySelector(".todo-mood").innerText !== moodInput ||
+          todo.querySelector(".todo-tag").innerText !== tagInput
+        ) {
           todo.style.display = "none";
-        }
-        else {
+        } else {
           todo.style.display = "initial";
         }
-      })
+      });
     }
   }
-
 }
 
 function dateChecker(dateInput) {
   let dayNumbers = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
+  const dayInWeek=["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   if (dateInput.length !== 10) {
     alert("length of date not correct!");
-    return false;
+    return "false";
   }
   for (let i = 0; i < 10; i++) {
-    if ((parseInt((dateInput[i].charCodeAt()) < 48 || parseInt((dateInput[i].charCodeAt()) > 57))) && (i !== 4 || i !== 7)) {
+    if (
+      parseInt(
+        dateInput[i].charCodeAt() < 48 ||
+          parseInt(dateInput[i].charCodeAt() > 57),
+      ) &&
+      (i !== 4 || i !== 7)
+    ) {
       alert("format of date not correct!");
-      return false;
+      return "false";
     }
   }
   const year = parseInt(dateInput.substring(0, 4));
@@ -389,52 +391,35 @@ function dateChecker(dateInput) {
     dayNumbers[2] = 29;
   if (month > 12 || month < 1) {
     alert("month not valid");
-    return false;
+    return "false";
   }
   if (date > dayNumbers[month] || date < 1) {
     alert("date not valid");
-    return false;
+    return "false";
   }
-  return true;
+  dateInput[4]="-";
+  dateInput[7]="-";
+  const editedTime = new Date(year, month-1, date);
+  console.log("editedTime.getDay()", editedTime.getDay(),dayInWeek[editedTime.getDay()]);
+  dateInput = dateInput.concat("(", dayInWeek[editedTime.getDay()], ')');
+  console.log("new date Input", dateInput);
+  return dateInput;
 }
 
 function getNowDate() {
   const nowTime = new Date();
+  const dayInWeek=["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-  let month = '' + (nowTime.getMonth() + 1);
-  let day = '' + nowTime.getDate();
+  let month = "" + (nowTime.getMonth() + 1);
+  let day = "" + nowTime.getDate();
   let year = nowTime.getFullYear();
   let date = "";
 
-  if (month.length < 2)
-    month = '0' + month;
-  if (day.length < 2)
-    day = '0' + day;
-  switch (nowTime.getDay()) {
-    case 0:
-      date = "SUN";
-      break;
-    case 1:
-      date = "MON";
-      break;
-    case 2:
-      date = "TUE";
-      break;
-    case 3:
-      date = "WED";
-      break;
-    case 4:
-      date = "THU";
-      break;
-    case 5:
-      date = "FRI";
-      break;
-    case 6:
-      date = "SAT";
-      break;
-  }
-  console.log([year, month, day].join('.') + '(' + date + ')');
-  return [year, month, day].join('.') + '(' + date + ')';
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+  date = dayInWeek[nowTime.getDay()];
+  console.log([year, month, day].join(".") + "(" + date + ")");
+  return [year, month, day].join(".") + "(" + date + ")";
 }
 
 main();

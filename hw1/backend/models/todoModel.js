@@ -11,11 +11,11 @@ const todoSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    tag:{
+    tag: {
       type: String,
       required: true,
     },
-    mood:{
+    mood: {
       type: String,
       required: true,
     },
