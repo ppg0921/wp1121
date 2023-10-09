@@ -178,7 +178,7 @@ export default function Card({ id, title, singer, songLink, setSelectedCards, se
           <Input
             autoFocus
             defaultValue={title}
-            className="w-40"
+            className="w-32"
             placeholder="Enter a new title for this song..."
             sx={{ fontSize: "0.5rem" }}
             inputRef={titleInputRef}
@@ -188,7 +188,7 @@ export default function Card({ id, title, singer, songLink, setSelectedCards, se
           <Input
             autoFocus
             defaultValue={singer}
-            className="w-40"
+            className="w-32"
             placeholder="Enter a new singer for this song..."
             sx={{ fontSize: "0.5rem" }}
             inputRef={singerInputRef}
@@ -199,14 +199,14 @@ export default function Card({ id, title, singer, songLink, setSelectedCards, se
             <Input
               autoFocus
               defaultValue={songLink}
-              className="w-40"
+              className="w-96"
               placeholder="Enter a new songLink for this song..."
               sx={{ fontSize: "0.5rem" }}
               inputRef={songLinkInputRef}
             />
           </ClickAwayListener>
-        ):(<button onClick={()=>{setEdittingSongLink(true)} } className="w-80 text-start text-sm">
-          <Link href={songLink} underline="hover" target="_blank" className="w-80 text-start text-sm">
+        ):(<button onClick={()=>{setEdittingSongLink(true)} } className="w-96 text-start text-sm">
+          <Link href={songLink} underline="hover" target="_blank" className="w-96 text-start text-sm">
             {songLink}
           </Link></button>)
         }
@@ -217,6 +217,7 @@ export default function Card({ id, title, singer, songLink, setSelectedCards, se
           aria-haspopup="true"
           aria-expanded={openSelect ? 'true' : undefined}
           onClick={handleClickSelect}
+          className="w-40"
         >
           Add to a playList
         </Button>
