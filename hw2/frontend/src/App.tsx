@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Add as AddIcon } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Stack from '@mui/material/Stack';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DoneIcon from '@mui/icons-material/Done';
@@ -30,8 +30,9 @@ function App() {
     <>
       <HeaderBar />
       <main className="flex-col">
+      <Typography variant="h5" className="p-3">      My PlayList      </Typography>
         <div>
-          <Stack direction="row" spacing={2} className="m-5">
+          <Stack direction="row" spacing={2} className="m-2">
             <Button
               variant="contained"
               className="w-80"
@@ -52,6 +53,7 @@ function App() {
             }
           </Stack>
         </div>
+        
         <div className="mx-auto flex max-h-full flex-row gap-6 px-24 py-12">
           <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 12, sm: 12, md: 12 }}>
             {lists.map((list) => (

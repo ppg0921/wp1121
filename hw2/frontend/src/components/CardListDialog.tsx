@@ -127,6 +127,10 @@ export default function CardListDialog(props: CardListDialogProps) {
 	// }
 
 	const handleDelete = async () => {
+		let comfirmed = confirm('Sure wanna delete?');
+		if(!comfirmed){
+			return;
+		}
 		try {
 			await updateList(listId, { variant: "removeCards", cards: selectedCards })
 			// console.log("updateLIst: listId = ", listId, "cards = ", selectedCards);
