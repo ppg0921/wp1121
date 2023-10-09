@@ -95,7 +95,7 @@ export const createCard = async (
   try {
     const { title, singer, songLink, list_id } = req.body;
     const checkRepeat = await CardModel.find({title: title});
-    if(checkRepeat){
+    if(checkRepeat.length>=1){
       return res.status(405).json({error: "Song of the same title already exists!"});
     }
     // Check if the list exists

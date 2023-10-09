@@ -31,13 +31,13 @@ export type CardProps = {
   singer: string;
   songLink: string;
   list_id: string[];
-  currentList: string;
+  currentList?: string;
   selectedCards: string[];
   setSelectedCards: (list: string[]) => void;
   totalSelected: boolean;
 };
 
-export default function Card({ id, title, singer, songLink, currentList, setSelectedCards, selectedCards, totalSelected }: CardProps) {
+export default function Card({ id, title, singer, songLink, setSelectedCards, selectedCards, totalSelected }: CardProps) {
 
   const { fetchCards, fetchLists, lists} = useCards();
   const [unAddedLists, setUnAddedLists] = useState<{ id: string, name: string }[]>([{ id: "fakeId", name: "still loading..." }]);
@@ -52,7 +52,7 @@ export default function Card({ id, title, singer, songLink, currentList, setSele
     //   // from unselected to selected
     //   setResponsedToTotalCheck(false);
     // }
-    console.log("selectedCards = ",selectedCards);
+    // console.log("selectedCards = ",selectedCards);
 
   }, [totalSelected]);
 
@@ -76,7 +76,7 @@ export default function Card({ id, title, singer, songLink, currentList, setSele
   const handleClickWhenTotalSelected = async () => {
     setResponsedToTotalCheck(true);
     setSelectedCards(selectedCards.filter((eachId) => (eachId !== id)));
-    console.log("selectedCards: ", selectedCards);
+    // console.log("selectedCards: ", selectedCards);
   }
 
   const handleCloseSelect = async (addid: string) => {
@@ -84,7 +84,7 @@ export default function Card({ id, title, singer, songLink, currentList, setSele
       if (addid !== "fakeId") {
         // console.log("here1");
         // console.log("addid = ", addid);
-        console.log("[addid]=", [addid]);
+        // console.log("[addid]=", [addid]);
         await updateCard(id, { variant: "addList", list_id: [addid] });
         // console.log("here2");
       }
@@ -92,21 +92,21 @@ export default function Card({ id, title, singer, songLink, currentList, setSele
       setUnAddedLists([{ id: "fakeId", name: "still loading..." }]);
       setAnchorEl(null);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
   const onChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("event.checked = ", event.target.checked);
+    // console.log("event.checked = ", event.target.checked);
     if (event.target.checked) {
-      console.log("add ", id);
+      // console.log("add ", id);
       setSelectedCards(selectedCards.concat([id]));
     }
     else {
-      console.log("remove ", id);
+      // console.log("remove ", id);
       setSelectedCards(selectedCards.filter((eachId) => (eachId !== id)));
     }
-    console.log("selectedCards: ", selectedCards);
+    // console.log("selectedCards: ", selectedCards);
   }
 
 

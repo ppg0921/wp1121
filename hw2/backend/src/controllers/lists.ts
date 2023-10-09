@@ -63,7 +63,7 @@ export const createList = async (
   try {
     const { name } = req.body;
     const checkRepeat = await ListModel.find({ name: name });
-    if (checkRepeat) {
+    if (checkRepeat.length>=1) {
       return res.status(405).json({ error: "List of the same name already exists!" });
     }
     const { id } = await ListModel.create(req.body);
@@ -187,7 +187,7 @@ export const deleteList = async (
         throw new Error("card id is not valid in deletedList");
       }
       if (eachCard.list_id.length <= 1) {
-        const deletedCard = await CardModel.findByIdAndDelete(cardId);
+        await CardModel.findByIdAndDelete(cardId);
       } else {
         eachCard.list_id = eachCard.list_id.filter((eachId) => (eachId.toString() !== id)) as [Types.ObjectId];
         await eachCard.save();

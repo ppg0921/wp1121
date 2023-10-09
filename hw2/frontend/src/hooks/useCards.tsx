@@ -6,7 +6,8 @@ import {
   useState,
 } from "react";
 
-import type { GetCardsResponse, GetListsResponse, CardData } from "@lib/shared_types";
+// import type { GetCardsResponse, GetListsResponse, CardData } from "@lib/shared_types";
+import type { GetCardsResponse, GetListsResponse} from "@lib/shared_types";
 
 import type { CardListProps } from "@/components/CardList";
 // import { getCards, getLists, getCardsByList, getCard } from "@/utils/client";
@@ -14,7 +15,7 @@ import { getCards, getLists } from "@/utils/client";
 
 type CardContextType = {
   lists: CardListProps[];
-  theCard: CardData;
+  // theCard: CardData;
   fetchLists: () => Promise<void>;
   fetchCards: () => Promise<void>;
   // fetchCard: (id: string) => Promise<void>;
@@ -24,7 +25,7 @@ type CardContextType = {
 // context is a way to share data between components without having to pass props down the component tree
 const CardContext = createContext<CardContextType>({
   lists: [],
-  theCard: { title: "", id: "", singer: "", songLink: "", list_id: [] },
+  // theCard: { title: "", id: "", singer: "", songLink: "", list_id: [] },
   fetchLists: async () => { },
   fetchCards: async () => { },
   // fetchCard: async () => { },
@@ -40,8 +41,8 @@ type CardProviderProps = {
 export function CardProvider({ children }: CardProviderProps) {
   const [rawLists, setRawLists] = useState<GetListsResponse>([]);
   const [rawCards, setRawCards] = useState<GetCardsResponse>([]);
-  const [rawCard, setRawCard] = useState<CardData>({ title: "", id: "", singer: "", songLink: "", list_id: [] });
-  const [rawListCards, setRawListCards] = useState<GetCardsResponse>([]);
+  // const [rawCard, setRawCard] = useState<CardData>({ title: "", id: "", singer: "", songLink: "", list_id: [] });
+  // const [rawListCards, setRawListCards] = useState<GetCardsResponse>([]);
 
   const fetchLists = useCallback(async () => {
     try {
@@ -86,9 +87,6 @@ export function CardProvider({ children }: CardProviderProps) {
   //   }
   // }, []);
 
-  const theCard = useMemo(() => {
-    return rawCard;
-  }, [rawCard, rawCards, rawLists, rawListCards]);
 
 
   const lists = useMemo(() => {
@@ -114,13 +112,12 @@ export function CardProvider({ children }: CardProviderProps) {
       }
     }
     return Object.values(listMap);
-  }, [rawCard, rawCards, rawLists, rawListCards]);
+  }, [ rawCards, rawLists]);
 
   return (
     <CardContext.Provider
       value={{
         lists,
-        theCard,
         fetchLists,
         fetchCards,
         // fetchCard,

@@ -38,13 +38,13 @@ export default function CardList({ id, name, description, cards, deleting }: Car
   const [open, setOpen] = useState(false);
   const { fetchLists, lists } = useCards();
   // const inputRef = useRef<HTMLInputElement>(null);
-
-  let cardsInList = lists.find((list) => (list.id === id))?.cards;
+  const [cardsInList, setCardsInList] = useState(lists.find((list) => (list.id === id))?.cards);
+  // let cardsInList = lists.find((list) => (list.id === id))?.cards;
   // console.log("cardsInList = ", cardsInList);
   useEffect(()=>{
-    cardsInList = lists.find((list) => (list.id === id))?.cards;
+    setCardsInList(lists.find((list) => (list.id === id))?.cards);
     // console.log("cardsInList = ", cardsInList);
-  }, [lists]);
+  }, [lists, id]);
 
   // const handleUpdateName = async () => {
   //   if (!inputRef.current) return;
@@ -71,7 +71,7 @@ export default function CardList({ id, name, description, cards, deleting }: Car
       await deleteList(id);
       fetchLists();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       alert("Error: Failed to delete list");
     }
   };
@@ -93,33 +93,6 @@ export default function CardList({ id, name, description, cards, deleting }: Car
               (<button onClick={handleDelete}><DeleteIcon></DeleteIcon></button>) : (<></>)
             }
           </div>
-
-          {/* {edittingName ? (
-            <ClickAwayListener onClickAway={handleUpdateName}>
-              <Input
-                autoFocus
-                defaultValue={name}
-                className="grow"
-                placeholder="Enter a new name for this list..."
-                sx={{ fontSize: "2rem" }}
-                inputRef={inputRef}
-              />
-            </ClickAwayListener>
-          ) : (
-            <button
-              onClick={() => setEdittingName(true)}
-              className="w-full rounded-md p-2 hover:bg-white/10"
-            >
-              <Typography className="text-start" variant="h4">
-                {name}
-              </Typography>
-            </button>
-          )} */}
-          {/* <div className="grid place-items-center">
-            <IconButton color="error" onClick={handleDelete}>
-              <DeleteIcon />
-            </IconButton>
-          </div> */}
         </div>
         
         {/* <div className="flex flex-col gap-4">

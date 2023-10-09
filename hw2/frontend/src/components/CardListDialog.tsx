@@ -70,7 +70,7 @@ export default function CardListDialog(props: CardListDialogProps) {
 		setTotalSelected(false);
 		setNewName(name);
 		setNewDescription(description);
-	}, [open]);
+	}, [open, name, description]);
 
 	const handleClose = () => {
 		onClose();
@@ -89,14 +89,14 @@ export default function CardListDialog(props: CardListDialogProps) {
 				const theListReal = theList[0];
 				setSelectedCards(theListReal.cards.map((card) => (card.id)));
 			}
-			console.log("setTotalSelected(true)");
-			console.log(totalSelected);
+			// console.log("setTotalSelected(true)");
+			// console.log(totalSelected);
 		} else {
 			setTotalSelected(false);
 			setSelectedCards([]);
-			console.log(totalSelected);
+			// console.log(totalSelected);
 		}
-		console.log("selectedCards = ", selectedCards);
+		// console.log("selectedCards = ", selectedCards);
 	}
 
 	const handleSave = async () => {
@@ -129,12 +129,12 @@ export default function CardListDialog(props: CardListDialogProps) {
 	const handleDelete = async () => {
 		try {
 			await updateList(listId, { variant: "removeCards", cards: selectedCards })
-			console.log("updateLIst: listId = ", listId, "cards = ", selectedCards);
+			// console.log("updateLIst: listId = ", listId, "cards = ", selectedCards);
 			// await deleteCard(props.cardId);
 			fetchCards();
 			fetchLists();
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 			alert("Error: Failed to delete card");
 		} finally {
 			handleClose();
