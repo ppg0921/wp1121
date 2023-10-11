@@ -127,7 +127,7 @@ export default function CardListDialog(props: CardListDialogProps) {
 	// }
 
 	const handleDelete = async () => {
-		let comfirmed = confirm('Sure wanna delete?');
+		const comfirmed = confirm('Sure wanna delete?');
 		if(!comfirmed){
 			return;
 		}
