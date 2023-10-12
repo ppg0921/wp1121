@@ -14,6 +14,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useUser } from '@/contexts/UserContext';
 import { cn } from '@/lib/utils';
 
+
 const tabs = [
   { title: 'Login', path: 'login' },
   { title: 'Register', path: 'register' },
@@ -51,7 +52,12 @@ const AuthLayout = () => {
       /* Here, a toast is a small, non-blocking notification pop-up. */
       /* They can be created via the `toast` function provided by `useToast()` */
       /* Reference: https://ui.shadcn.com/docs/components/toast#usage */
-
+      if (password !== confirmPassword) {
+        toast({
+          description: "Passwords do not match",
+        })
+        return;
+      }
       /* End of TODO 1.5 */
       register(username, password);
     }
@@ -73,11 +79,11 @@ const AuthLayout = () => {
               <TabsTrigger
                 asChild
                 key={tab.title}
-                value=""
+                value={tab.path}
                 className="last-of-type:border-r-0"
                 data-testid={`tab-${tab.path}`}
               >
-                <NavLink to="" />
+                <NavLink to={`/${tab.path}`} >{tab.title}</NavLink>
               </TabsTrigger>
               /* End of TODO 1.3 */
             ))}
@@ -90,8 +96,9 @@ const AuthLayout = () => {
             {/* The logo should be vscoddit.svg in the public folder. */}
             {/* The logo should have alt text "VSCoddit Logo". */}
             {/* The title should be "VSCoddit" */}
-            <img data-testid="header-logo" className="h-5 w-5 brightness-200" />
-            <span data-testid="header-title" />
+
+            <img data-testid="header-logo" className="h-5 w-5 brightness-200" alt="VSCoddit Logo" src='/vscoddit.svg' />
+            <span data-testid="header-title" >VSCoddit</span>
             {/* END of TODO 1.1 */}
           </CardTitle>
           <CardDescription>
@@ -115,6 +122,9 @@ const AuthLayout = () => {
                 type="text"
                 name="username"
                 autoComplete="username"
+                placeholder="Enter Username"
+                required
+                onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setUsername(e.target.value)}
               />
               {/* End of TODO 1.4 */}
             </div>
@@ -131,6 +141,9 @@ const AuthLayout = () => {
                 type="password"
                 name="password"
                 autoComplete="current-password"
+                placeholder="Enter Password"
+                required
+                onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setPassword(e.target.value)}
               />
               {/* End of TODO 1.4 */}
             </div>
@@ -138,7 +151,7 @@ const AuthLayout = () => {
               className={cn(
                 'flex h-[76px] flex-col gap-2 transition-all duration-200',
                 location.pathname === '/login' &&
-                  'pointer-events-none !mt-0 h-0 opacity-0',
+                'pointer-events-none !mt-0 h-0 opacity-0',
               )}
             >
               <Label htmlFor="confirm-password">Confirm Password</Label>
@@ -153,6 +166,9 @@ const AuthLayout = () => {
                 type="password"
                 name="confirm-password"
                 autoComplete="new-password"
+                placeholder="Confirm Password"
+                required={location.pathname === '/register'}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setConfirmPassword(e.target.value)}
               />
               {/* End of TODO 1.5 */}
             </div>
