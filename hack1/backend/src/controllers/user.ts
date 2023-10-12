@@ -70,7 +70,13 @@ export const updateUser = asyncWrapper(
     /* TODO 4.4: Update User Information (6%) */
     /* Return 200 with updated user */
     /* Return 404 with "User not found" if update fails */
-    throw new Error('`updateUser` Not Implemented');
+    const newUser = UserModel.findById(id);
+    if(!newUser){
+      return res.status(404).send({message: "User not found"});
+    }
+    await newUser.updateOne((req.body));
+    await newUser.save();
+    return res.status(200).json(newUser);
     /* End of TODO 5.4 */
   },
 );
