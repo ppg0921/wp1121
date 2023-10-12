@@ -33,6 +33,7 @@ const Create = (): React.ReactNode => {
     e.preventDefault();
     if (selectedIndex === -1) {
       // create new post
+      createPost(title, code);
       setSelectedIndex(numPosts);
       toast({
         description: 'File Created Successfully',
@@ -77,11 +78,11 @@ const Create = (): React.ReactNode => {
         {/* TODO 3.2: Create a New Post With the Editor (3%) */}
         {/* Hint 3.2.1: Use `getPostIndicesByUserId` from `PostContext` to fetch logged in user's post indices */}
         {user &&
-          [].map((postIndex) => {
+          getPostIndicesByUserId(user._id).map((postIndex) => {
             {
               /* Hint 3.2.2: Get post data with `getPostByIndex` from `PostContext` */
             }
-            const post = getPostByIndex(0);
+            const post = getPostByIndex(postIndex);
             if (post === null) return <></>;
             return (
               <span
@@ -105,6 +106,7 @@ const Create = (): React.ReactNode => {
                 ></img>
                 {/* Hint 3.2.3: Display post title here */}
                 {/* Post Title */}
+                {post.title}
               </span>
             );
           })}
@@ -119,8 +121,8 @@ const Create = (): React.ReactNode => {
           {/* Hint 3.1.1: Argument `onChange` and `value of `Input` component should be modified */}
           <Input
             type="text"
-            value={'hello.js'}
-            onChange={(e) => console.log(e.target.value)}
+            value={title}
+            onChange={(e) => { setTitle(e.target.value); }}
             id="title"
             placeholder="File name"
             className="h-9 rounded-[2px] border-background p-2.5 focus-visible:border-button focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -141,6 +143,7 @@ const Create = (): React.ReactNode => {
             theme="vs-dark"
             value={code}
             onChange={(newValue) => {
+              setCode(newValue ?? "");
               console.log('[Manaco Editor] New value:\n', newValue);
             }}
             loading={

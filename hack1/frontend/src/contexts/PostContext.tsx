@@ -67,7 +67,9 @@ export const PostsProvider = ({ children }: PropsWithChildren) => {
   const updatePost = async (index: number, title: string, content: string) => {
     if (posts === null) return;
     /* Hint 3.3.1: Use the correct API from `PostService` to update DB */
+    PostService.update(posts[index]._id, {title: title, content: content, author:posts[index].author._id});
     /* Hint 3.3.2: Use React hook to update frontend */
+    
   };
   /* END TODO 3.3 */
 
@@ -79,8 +81,10 @@ export const PostsProvider = ({ children }: PropsWithChildren) => {
     if (posts === null || user === null) return;
     if (vote === 'upvote') {
       // handle upvotes
+      upvotePost(index, userId);
     } else if (vote === 'downvote') {
       // handle downvotes
+      downvotePost(index, userId);
     }
   };
 

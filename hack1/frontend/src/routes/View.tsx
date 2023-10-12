@@ -24,7 +24,7 @@ const View = (): React.ReactNode => {
     else {
       setSelectedIndex((selectedIndex + 1 >= numPosts) ? 0 : selectedIndex + 1);
     }
-  }, []);
+  }, [selectedIndex]);
   const handlePrevClick = useCallback(() => {
     if (selectedIndex === 0) {
       setSelectedIndex((numPosts - 1 < 0) ? 0 : (numPosts - 1))
@@ -32,7 +32,7 @@ const View = (): React.ReactNode => {
     else {
       setSelectedIndex(selectedIndex - 1);
     }
-  }, []);
+  }, [selectedIndex]);
   /* End (3/3) TODO 2.2 */
 
   /* (1/3) TODO 2.4: Handle Voting for Unvoted Posts (8%) */
@@ -89,9 +89,9 @@ const View = (): React.ReactNode => {
           upvoteClickHandler={() => { handleVoteClick("upvote") }}
           hasDownvoted={hasDownvoted ?? false}
           hasUpvoted={hasUpvoted ?? false}
-          nextClickHandler={() => { handleNextClick }}
-          prevClickHandler={() => { handlePrevClick }}
-          totalVotes={post.downvotes.length + post.upvotes.length}
+          nextClickHandler={() => { handleNextClick() }}
+          prevClickHandler={() => { handlePrevClick() }}
+          totalVotes={-post.downvotes.length + post.upvotes.length}
           loading={false}
         />
         {/* End (3/3) TODO 2.4 */}

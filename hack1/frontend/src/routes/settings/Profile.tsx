@@ -20,13 +20,16 @@ import { useUser } from '@/contexts/UserContext';
 /* TODO 4.2: Render User Information - gender (8%) */
 /* Create props `gender` for the `GenderItem` component */
 /* What type should it be? (Hint: You can find it in this file) */
-const GenderItem = (/* Implement me */) => {
+// type gender = {
+//   sex: 'Male' | 'Female' | 'Other';
+// }
+const GenderItem = (gender:string) => {
   return (
     <FormItem className="flex items-center space-x-3 space-y-0">
       <FormControl>
         <RadioGroupItem value="Replace me" />
       </FormControl>
-      <FormLabel className="font-normal">Replace me</FormLabel>
+      <FormLabel className="font-normal">{gender}</FormLabel>
     </FormItem>
   );
 };
@@ -84,6 +87,16 @@ const Profile = (): React.ReactNode => {
           {/* You should use a `Textarea` component */}
           {/* It should have a placeholder of "Tell us a little bit about yourself" */}
           {/* It is not required */}
+          <FormItem>
+            <Label>Bio</Label>
+            <FormControl >
+              <Textarea placeholder="Tell us a little bit about yourself" >
+                <label>Bio</label>
+              </Textarea>
+            </FormControl>
+
+          </FormItem>
+
           <p className="text-destructive">Replace me</p>
           {/* End of TODO 5.1 */}
           <FormField
