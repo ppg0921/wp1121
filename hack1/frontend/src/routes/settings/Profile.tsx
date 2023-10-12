@@ -23,11 +23,11 @@ import { useUser } from '@/contexts/UserContext';
 // type gender = {
 //   sex: 'Male' | 'Female' | 'Other';
 // }
-const GenderItem = (gender:string) => {
+const GenderItem = (gender:'Male' | 'Female' | 'Other') => {
   return (
     <FormItem className="flex items-center space-x-3 space-y-0">
       <FormControl>
-        <RadioGroupItem value="Replace me" />
+        <RadioGroupItem value={gender} />
       </FormControl>
       <FormLabel className="font-normal">{gender}</FormLabel>
     </FormItem>
