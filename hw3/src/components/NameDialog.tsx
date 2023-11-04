@@ -36,8 +36,8 @@ export default function NameDialog({openFromOutSide, onClose}:{openFromOutSide:b
     const handle = searchParams.get("handle");
     // if any of the username or handle is not valid, open the dialog
     setDialogOpen(!validateUsername(username) || !validateHandle(handle));
-    console.log("setDialogOpen", !validateUsername(username) || !validateHandle(handle));
-    console.log(dialogOpen);
+    // console.log("setDialogOpen", !validateUsername(username) || !validateHandle(handle));
+    // console.log(dialogOpen);
   }, [searchParams]);
 
   useEffect(()=>{
