@@ -103,7 +103,7 @@ export async function updateTaskComplete(
   // TODO: 9. Update the task's `completed` column
   await db
       .update(tasksTable)
-      .set(validatedReqBody)
+      .set({completed: completed})
       .where(and(eq(tasksTable.displayId, taskId), eq(tasksTable.projectId, projectId)))
       .returning();
 
